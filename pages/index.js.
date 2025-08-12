@@ -1,0 +1,502 @@
+import React, { useState } from 'react';
+import { 
+  Calculator, MapPin, Phone, Mail, Star, Users, Shield, Clock, Award, 
+  ChevronRight, ArrowRight, Building, Home, Wrench, Zap, 
+  CheckCircle, Menu, X, Sun, Moon, Send, Sparkles, Gift 
+} from 'lucide-react';
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState('home');
+  const [showMenu, setShowMenu] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    service: '',
+    message: ''
+  });
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+  const services = [
+    {
+      id: 1,
+      name: 'Заборы',
+      icon: <Wrench className="w-8 h-8" />,
+      description: 'Качественные заборы из различных материалов',
+      priceRange: 'от 2500 ₽/м²',
+      color: 'from-blue-500 to-cyan-400'
+    },
+    {
+      id: 2,
+      name: 'Навесы',
+      icon: <Home className="w-8 h-8" />,
+      description: 'Прочные навесы для дачи и дома',
+      priceRange: 'от 3500 ₽/м²',
+      color: 'from-green-500 to-teal-400'
+    },
+    {
+      id: 3,
+      name: 'Ограждения',
+      icon: <Shield className="w-8 h-8" />,
+      description: 'Безопасные ограждения для территорий',
+      priceRange: 'от 2800 ₽/м²',
+      color: 'from-purple-500 to-pink-400'
+    }
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Telegram bot integration
+      const telegramBotToken = '7652376591:AAGbGzcwwpIyN91fLtX2KAW0KM_qQ07RUXs';
+      const chatId = '5977892192';
+      
+      const message = `
+🧩 Новая заявка с сайта!
+👤 Имя: ${formData.name}
+📞 Телефон: ${formData.phone}
+🛠 Услуга: ${formData.service}
+📝 Сообщение: ${formData.message}
+📍 Город: Шумерля
+      `;
+      
+      await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message
+        })
+      });
+      
+      setIsFormSubmitted(true);
+      setTimeout(() => {
+        setIsFormSubmitted(false);
+        setFormData({ name: '', phone: '', service: '', message: '' });
+      }, 3000);
+    } catch (error) {
+      console.error('Error sending to Telegram:', error);
+      alert('Ошибка при отправке заявки. Пожалуйста, попробуйте позже.');
+    }
+  };
+
+  const ServiceCard = ({ service }) => (
+    <div 
+      className={`bg-gradient-to-br ${service.color} rounded-xl shadow-lg p-6 cursor-pointer transform transition-all duration-300 hover:shadow-2xl hover:scale-105`}
+      onClick={() => setActiveTab('contact')}
+    >
+      <div className="flex items-center mb-4">
+        <div className="bg-white/30 p-3 rounded-lg text-white">
+          {service.icon}
+        </div>
+        <h3 className="text-xl font-bold text-white ml-4">{service.name}</h3>
+      </div>
+      <p className="text-white/90 mb-4">{service.description}</p>
+      <div className="flex justify-between items-center">
+        <span className="text-lg font-bold text-white">{service.priceRange}</span>
+        <ChevronRight className="w-5 h-5 text-white" />
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+      {/* Header */}
+      <header className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md sticky top-0 z-50`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-lg">
+                <Building className="w-6 h-6 text-white" />
+              </div>
+              <div className="ml-3">
+                <h1 className="text-lg font-bold">СтройБригада</h1>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Шумерля</p>
+              </div>
+            </div>
+            
+            <nav className="hidden md:flex space-x-6">
+              {['home', 'services', 'contact'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`capitalize font-medium text-sm ${
+                    activeTab === tab ? 'text-blue-600' : isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}
+                >
+                  {tab === 'home' ? 'Главная' : 
+                   tab === 'services' ? 'Услуги' : 'Контакты'}
+                </button>
+              ))}
+            </nav>
+
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className={`p-2 rounded-full ${isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-200 text-gray-700'}`}
+              >
+                {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+              
+              <button
+                className="md:hidden p-2"
+                onClick={() => setShowMenu(!showMenu)}
+              >
+                {showMenu ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {showMenu && (
+          <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} md:hidden border-t`}>
+            <div className="px-4 py-3 space-y-2">
+              {['home', 'services', 'contact'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => {
+                    setActiveTab(tab);
+                    setShowMenu(false);
+                  }}
+                  className={`block w-full text-left py-2 capitalize font-medium text-sm ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}
+                >
+                  {tab === 'home' ? 'Главная' : 
+                   tab === 'services' ? 'Услуги' : 'Контакты'}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Hero Section */}
+      {activeTab === 'home' && (
+        <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://placehold.co/1920x1080/2563eb/ffffff?text=Background')] opacity-10"></div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Строительство в Шумерле
+                <br />
+                <span className="text-yellow-300">Высокое качество</span>
+              </h1>
+              <p className="text-xl mb-8 max-w-2xl mx-auto">
+                Заборы, навесы и ограждения. Быстро, надежно, профессионально!
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => setActiveTab('services')}
+                  className="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all duration-300 flex items-center"
+                >
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Наши услуги
+                </button>
+                <button
+                  onClick={() => setActiveTab('contact')}
+                  className="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center"
+                >
+                  <Phone className="w-5 h-5 mr-2" />
+                  Позвонить
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          {/* Decorative elements */}
+          <div className="absolute top-20 right-10 w-20 h-20 bg-yellow-400 rounded-full opacity-30 animate-spin-slow"></div>
+          <div className="absolute bottom-20 left-10 w-16 h-16 bg-green-400 rounded-full opacity-30 animate-spin-slower"></div>
+        </section>
+      )}
+
+      {/* Services Section */}
+      {activeTab === 'services' && (
+        <section className={`py-16 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Наши услуги</h2>
+              <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Комплексное решение для вашего участка
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {services.map((service) => (
+                <ServiceCard key={service.id} service={service} />
+              ))}
+            </div>
+
+            <div className={`${isDarkMode ? 'bg-gray-700' : 'bg-white'} rounded-xl shadow-lg p-8`}>
+              <h3 className="text-2xl font-bold mb-6 flex items-center">
+                <Calculator className="mr-3 text-blue-600" />
+                Калькулятор цен
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Тип услуги</label>
+                  <select
+                    value={formData.service}
+                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                    className={`w-full p-3 border rounded-lg ${
+                      isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
+                    }`}
+                  >
+                    <option value="">Выберите услугу</option>
+                    <option value="забор">Забор</option>
+                    <option value="навес">Навес</option>
+                    <option value="ограждение">Ограждение</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">Площадь (м²)</label>
+                  <input
+                    type="number"
+                    value={formData.area || ''}
+                    onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                    className={`w-full p-3 border rounded-lg ${
+                      isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
+                    }`}
+                    placeholder="Введите площадь"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">Цена</label>
+                  <div className={`w-full p-3 border rounded-lg ${
+                    isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
+                  }`}>
+                    {formData.area && formData.service ? 
+                      `${Math.round((formData.area * (formData.service === 'забор' ? 2500 : formData.service === 'навес' ? 3500 : 2800))).toLocaleString()} ₽` : '—'}
+                  </div>
+                </div>
+                
+                <div className="flex items-end">
+                  <button
+                    onClick={() => {
+                      if (formData.area && formData.service) {
+                        alert(`Рассчитанная цена: ${Math.round((formData.area * (formData.service === 'забор' ? 2500 : formData.service === 'навес' ? 3500 : 2800))).toLocaleString()} ₽`);
+                      }
+                    }}
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 flex items-center"
+                  >
+                    <Zap className="w-4 h-4 mr-2" />
+                    Рассчитать
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Contact Section */}
+      {activeTab === 'contact' && (
+        <section className={`py-16 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Контакты</h2>
+              <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Свяжитесь с нами для получения консультации
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div className="flex items-start">
+                  <div className="bg-blue-100 p-3 rounded-lg text-blue-600 mr-4">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Телефон</h3>
+                    <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>+7 (937) 388-1435</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="bg-green-100 p-3 rounded-lg text-green-600 mr-4">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Email</h3>
+                    <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>info@stroybrigada.ru</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="bg-purple-100 p-3 rounded-lg text-purple-600 mr-4">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Адрес</h3>
+                    <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>г. Шумерля, ул. Промышленная, д. 15</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="bg-orange-100 p-3 rounded-lg text-orange-600 mr-4">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Режим работы</h3>
+                    <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Пн-Пт: 9:00-18:00</p>
+                    <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Сб: 10:00-16:00</p>
+                    <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Вс: выходной</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className={`${isDarkMode ? 'bg-gray-700' : 'bg-white'} rounded-xl shadow-lg p-6`}>
+                <h3 className="text-xl font-bold mb-6 flex items-center">
+                  <Send className="mr-2 text-blue-600" />
+                  Оставьте заявку
+                </h3>
+                
+                {isFormSubmitted ? (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                    <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-2" />
+                    <h4 className="font-bold text-green-700">Спасибо за заявку!</h4>
+                    <p className="text-green-600 text-sm">Мы свяжемся с вами в ближайшее время.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Ваше имя"
+                        className={`w-full p-3 border rounded-lg ${
+                          isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
+                        }`}
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="Ваш телефон"
+                        className={`w-full p-3 border rounded-lg ${
+                          isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
+                        }`}
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <select
+                        name="service"
+                        value={formData.service}
+                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                        className={`w-full p-3 border rounded-lg ${
+                          isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
+                        }`}
+                        required
+                      >
+                        <option value="">Выберите услугу</option>
+                        <option value="забор">Забор</option>
+                        <option value="навес">Навес</option>
+                        <option value="ограждение">Ограждение</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        placeholder="Сообщение"
+                        rows={4}
+                        className={`w-full p-3 border rounded-lg ${
+                          isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
+                        }`}
+                        required
+                      ></textarea>
+                    </div>
+                    
+                    <button
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center"
+                    >
+                      <Gift className="w-4 h-4 mr-2" />
+                      Отправить заявку
+                    </button>
+                  </form>
+                )}
+                
+                <div className="mt-6 text-center">
+                  <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mb-2`}>
+                    Или напишите нам в WhatsApp:
+                  </p>
+                  <a
+                    href="https://wa.me/79373881435"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition-all duration-300 flex items-center justify-center"
+                  >
+                    <span>WhatsApp</span>
+                    <span className="ml-2">💬</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Footer */}
+      <footer className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-900'} text-white py-8`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <div className="flex items-center mb-4">
+                <div className="bg-blue-600 p-2 rounded-lg">
+                  <Building className="w-5 h-5 text-white" />
+                </div>
+                <span className="ml-2 text-lg font-bold">СтройБригада</span>
+              </div>
+              <p className="text-gray-400 text-sm">
+                Профессиональное строительство в Шумерле
+              </p>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-3">Услуги</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li>Заборы</li>
+                <li>Навесы</li>
+                <li>Ограждения</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-3">Контакты</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li>+7 (937) 388-1435</li>
+                <li>info@stroybrigada.ru</li>
+                <li>г. Шумерля</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 mt-6 pt-6 text-center text-gray-400 text-sm">
+            <p>&copy; 2024 СтройБригада. Все права защищены.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
