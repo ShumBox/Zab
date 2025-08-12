@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>СтройБригада | Заборы и навесы в Шумерле</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes spin-slower { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+    .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+    .animate-spin-slower { animation: spin-slower 30s linear infinite; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 transition-colors duration-300">
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-4">
+        <div class="flex items-center">
+          <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-lg">
+            <i class="fas fa-building text-white text-xl"></i>
+          </div>
+          <div class="ml-3">
+            <h1 class="text-lg font-bold">СтройБригада</h1>
+            <p class="text-xs text-gray-600">Шумерля</p>
+          </div>
+        </div>
+        
+        <nav class="hidden md:flex space-x-6">
+          <button onclick="setActiveTab('home')" class="capitalize font-medium text-sm text-gray-700">Главная</button>
+          <button onclick="setActiveTab('services')" class="capitalize font-medium text-sm text-gray-700">Услуги</button>
+          <button onclick="setActiveTab('contact')" class="capitalize font-medium text-sm text-gray-700">Контакты</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://placehold.co/1920x1080/2563eb/ffffff?text=Background')] opacity-10"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+          Строительство в Шумерле
+          <br />
+          <span class="text-yellow-300">Высокое качество</span>
+        </h1>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+          Заборы, навесы и ограждения. Быстро, надежно, профессионально!
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button onclick="setActiveTab('services')" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all duration-300 flex items-center">
+            <i class="fas fa-sparkles mr-2"></i>
+            Наши услуги
+          </button>
+          <button onclick="setActiveTab('contact')" class="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center">
+            <i class="fas fa-phone mr-2"></i>
+            Позвонить
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-16 bg-gray-50 hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">Наши услуги</h2>
+        <p class="text-gray-600">Комплексное решение для вашего участка</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white rounded-xl shadow-lg p-6 cursor-pointer transform transition-all duration-300 hover:shadow-2xl hover:scale-105">
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-100 p-3 rounded-lg text-blue-600">
+              <i class="fas fa-wrench text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold ml-4">Заборы</h3>
+          </div>
+          <p class="mb-4">Качественные заборы из различных материалов</p>
+          <div class="flex justify-between items-center">
+            <span class="text-lg font-bold">от 2500 ₽/м²</span>
+            <i class="fas fa-chevron-right text-blue-600"></i>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg p-6 cursor-pointer transform transition-all duration-300 hover:shadow-2xl hover:scale-105">
+          <div class="flex items-center mb-4">
+            <div class="bg-green-100 p-3 rounded-lg text-green-600">
+              <i class="fas fa-home text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold ml-4">Навесы</h3>
+          </div>
+          <p class="mb-4">Прочные навесы для дачи и дома</p>
+          <div class="flex justify-between items-center">
+            <span class="text-lg font-bold">от 3500 ₽/м²</span>
+            <i class="fas fa-chevron-right text-blue-600"></i>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg p-6 cursor-pointer transform transition-all duration-300 hover:shadow-2xl hover:scale-105">
+          <div class="flex items-center mb-4">
+            <div class="bg-purple-100 p-3 rounded-lg text-purple-600">
+              <i class="fas fa-shield-alt text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold ml-4">Ограждения</h3>
+          </div>
+          <p class="mb-4">Безопасные ограждения для территорий</p>
+          <div class="flex justify-between items-center">
+            <span class="text-lg font-bold">от 2800 ₽/м²</span>
+            <i class="fas fa-chevron-right text-blue-600"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <h3 class="text-2xl font-bold mb-6 flex items-center">
+          <i class="fas fa-calculator mr-3 text-blue-600"></i>
+          Калькулятор цен
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">Тип услуги</label>
+            <select id="service" class="w-full p-3 border rounded-lg bg-white border-gray-300">
+              <option value="">Выберите услугу</option>
+              <option value="забор">Забор</option>
+              <option value="навес">Навес</option>
+              <option value="ограждение">Ограждение</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium mb-2">Площадь (м²)</label>
+            <input type="number" id="area" class="w-full p-3 border rounded-lg bg-white border-gray-300" placeholder="Введите площадь">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium mb-2">Цена</label>
+            <div id="price" class="w-full p-3 border rounded-lg bg-white border-gray-300">—</div>
+          </div>
+          
+          <div class="flex items-end">
+            <button onclick="calculatePrice()" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 flex items-center">
+              <i class="fas fa-bolt mr-2"></i>
+              Рассчитать
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-16 bg-gray-50 hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">Контакты</h2>
+        <p class="text-gray-600">Свяжитесь с нами для получения консультации</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="bg-blue-100 p-3 rounded-lg text-blue-600 mr-4">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold mb-1">Телефон</h3>
+              <p class="text-gray-600">+7 (937) 388-1435</p>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="bg-green-100 p-3 rounded-lg text-green-600 mr-4">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold mb-1">Email</h3>
+              <p class="text-gray-600">info@stroybrigada.ru</p>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="bg-purple-100 p-3 rounded-lg text-purple-600 mr-4">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold mb-1">Адрес</h3>
+              <p class="text-gray-600">г. Шумерля, ул. Промышленная, д. 15</p>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="bg-orange-100 p-3 rounded-lg text-orange-600 mr-4">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold mb-1">Режим работы</h3>
+              <p class="text-gray-600">Пн-Пт: 9:00-18:00</p>
+              <p class="text-gray-600">Сб: 10:00-16:00</p>
+              <p class="text-gray-600">Вс: выходной</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold mb-6 flex items-center">
+            <i class="fas fa-paper-plane mr-2 text-blue-600"></i>
+            Оставьте заявку
+          </h3>
+          
+          <div id="formSuccess" class="bg-green-50 border border-green-200 rounded-lg p-4 text-center hidden">
+            <i class="fas fa-check-circle w-8 h-8 text-green-500 mx-auto mb-2"></i>
+            <h4 class="font-bold text-green-700">Спасибо за заявку!</h4>
+            <p class="text-green-600 text-sm">Мы свяжемся с вами в ближайшее время.</p>
+          </div>
+          
+          <form id="contactForm" class="space-y-4">
+            <div>
+              <input type="text" id="name" placeholder="Ваше имя" class="w-full p-3 border rounded-lg bg-white border-gray-300" required>
+            </div>
+            
+            <div>
+              <input type="tel" id="phone" placeholder="Ваш телефон" class="w-full p-3 border rounded-lg bg-white border-gray-300" required>
+            </div>
+            
+            <div>
+              <select id="serviceContact" class="w-full p-3 border rounded-lg bg-white border-gray-300" required>
+                <option value="">Выберите услугу</option>
+                <option value="забор">Забор</option>
+                <option value="навес">Навес</option>
+                <option value="ограждение">Ограждение</option>
+              </select>
+            </div>
+            
+            <div>
+              <textarea id="message" placeholder="Сообщение" rows="4" class="w-full p-3 border rounded-lg bg-white border-gray-300" required></textarea>
+            </div>
+            
+            <button type="button" onclick="submitForm()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center">
+              <i class="fas fa-gift mr-2"></i>
+              Отправить заявку
+            </button>
+          </form>
+          
+          <div class="mt-6 text-center">
+            <p class="text-sm text-gray-500 mb-2">Или напишите нам в WhatsApp:</p>
+            <a href="https://wa.me/79373881435" target="_blank" class="inline-block bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition-all duration-300 flex items-center justify-center">
+              <span>WhatsApp</span>
+              <span class="ml-2">💬</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-600 p-2 rounded-lg">
+              <i class="fas fa-building text-white"></i>
+            </div>
+            <span class="ml-2 text-lg font-bold">СтройБригада</span>
+          </div>
+          <p class="text-gray-400 text-sm">
+            Профессиональное строительство в Шумерле
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="font-semibold mb-3">Услуги</h4>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li>Заборы</li>
+            <li>Навесы</li>
+            <li>Ограждения</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-semibold mb-3">Контакты</h4>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li>+7 (937) 388-1435</li>
+            <li>info@stroybrigada.ru</li>
+            <li>г. Шумерля</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-6 pt-6 text-center text-gray-400 text-sm">
+        <p>&copy; 2024 СтройБригада. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Tab switching
+    function setActiveTab(tab) {
+      document.getElementById('home').classList.add('hidden');
+      document.getElementById('services').classList.add('hidden');
+      document.getElementById('contact').classList.add('hidden');
+      
+      if (tab === 'home') {
+        document.getElementById('home').classList.remove('hidden');
+      } else if (tab === 'services') {
+        document.getElementById('services').classList.remove('hidden');
+      } else if (tab === 'contact') {
+        document.getElementById('contact').classList.remove('hidden');
+      }
+    }
+    
+    // Price calculator
+    function calculatePrice() {
+      const service = document.getElementById('service').value;
+      const area = document.getElementById('area').value;
+      const priceElement = document.getElementById('price');
+      
+      if (!area || !service) {
+        priceElement.textContent = '—';
+        return;
+      }
+      
+      let pricePerUnit;
+      if (service === 'забор') pricePerUnit = 2500;
+      else if (service === 'навес') pricePerUnit = 3500;
+      else if (service === 'ограждение') pricePerUnit = 2800;
+      
+      const totalPrice = Math.round(area * pricePerUnit);
+      priceElement.textContent = `${totalPrice.toLocaleString()} ₽`;
+    }
+    
+    // Form submission
+    function submitForm() {
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const service = document.getElementById('serviceContact').value;
+      const message = document.getElementById('message').value;
+      
+      if (!name || !phone || !service || !message) {
+        alert('Пожалуйста, заполните все поля');
+        return;
+      }
+      
+      // Telegram bot integration
+      const telegramBotToken = '7652376591:AAGbGzcwwpIyN91fLtX2KAW0KM_qQ07RUXs';
+      const chatId = '5977892192';
+      
+      const messageText = `
+🧩 Новая заявка с сайта!
+👤 Имя: ${name}
+📞 Телефон: ${phone}
+🛠 Услуга: ${service}
+📝 Сообщение: ${message}
+📍 Город: Шумерля
+      `;
+      
+      fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: messageText
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById('contactForm').classList.add('hidden');
+          document.getElementById('formSuccess').classList.remove('hidden');
+          
+          setTimeout(() => {
+            document.getElementById('contactForm').classList.remove('hidden');
+            document.getElementById('formSuccess').classList.add('hidden');
+            document.getElementById('contactForm').reset();
+          }, 3000);
+        } else {
+          alert('Ошибка при отправке заявки. Пожалуйста, попробуйте позже.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Ошибка при отправке заявки. Пожалуйста, попробуйте позже.');
+      });
+    }
+    
+    // Initialize - show home tab by default
+    setActiveTab('home');
+  </script>
+</body>
+</html>
